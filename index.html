@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>104Quiz Generator</title>
+<style>
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#0b0b0f;color:white} .wrap{max-width:950px;margin:auto;padding:22px}.card{background:#171720;border:1px solid #303040;border-radius:22px;padding:22px;box-shadow:0 20px 60px #0008}h1{margin:0 0 8px;font-size:42px}.yellow{color:#ffd43b}p{color:#bbb}.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:18px 0}select,input,button{font:inherit;border-radius:14px;border:1px solid #38384a;background:#101018;color:#fff;padding:12px}button{background:linear-gradient(135deg,#ffd43b,#ff7b00);color:#111;border:0;font-weight:900;cursor:pointer}.secondary{background:#252536;color:#fff;border:1px solid #444}.clue{display:grid;grid-template-columns:120px 1fr;gap:12px;background:#101018;border:1px solid #333;border-radius:16px;padding:14px;margin:10px 0}.num{font-size:30px;font-weight:900;color:#ffd43b;letter-spacing:4px}.hint{font-size:18px}.box{background:#08080c;border:1px solid #333;border-radius:16px;padding:14px;margin-top:14px;white-space:pre-wrap;font-family:Consolas,monospace}.sol{font-size:30px;color:#2ed573;font-weight:900}.small{font-size:13px;color:#aaa}@media(max-width:650px){.clue{grid-template-columns:1fr}h1{font-size:32px}}
+</style>
+</head>
+<body>
+<div class="wrap"><div class="card">
+<h1><span class="yellow">104Quiz</span> Generator</h1>
+<p>Genera quiz “Trova il codice” con soluzione unica. Il primo indizio elimina cifre che ricompaiono negli altri indizi.</p>
+<div class="controls">
+<label>Cifre<br><select id="digits"><option value="3">3 cifre</option><option value="4">4 cifre</option><option value="5">5 cifre</option></select></label>
+<label>Indizi<br><select id="clues"><option value="5">5 indizi</option><option value="6">6 indizi</option><option value="7">7 indizi</option></select></label>
+<label>Tentativi max<br><input id="attempts" value="50000"></label>
+<button onclick="generateAndShow()">🎲 Genera quiz</button>
+<button class="secondary" onclick="copyQuiz()">📋 Copia</button>
+</div>
+<div id="status" class="small"></div>
+<div id="quiz"></div>
+<div id="result" class="box"></div>
+</div></div>
+<script>
+const DIGITS='0123456789'; let lastText='';
+function perms(arr,k){let out=[];function rec(path,rest){if(path.length===k){out.push(path.join(''));return}for(let i=0;i<rest.length;i++){rec([...path,rest[i]],[...rest.slice(0,i),...rest.slice(i+1)])}}rec([],arr.split(''));return out}
+function evalCode(secret,guess){let bulls=0,cows=0;for(let i=0;i<secret.length;i++){if(secret[i]===guess[i])bulls++;else if(secret.includes(guess[i]))cows++}return [bulls,cows]}
+function text(b,c){const m={"0,0":"Nessuna cifra è presente","1,0":"Una cifra è corretta ed è al posto giusto","0,1":"Una cifra è corretta ma nel posto sbagliato","2,0":"Due cifre sono corrette ed entrambe al posto giusto","0,2":"Due cifre sono corrette ma nel posto sbagliato","1,1":"Una cifra è corretta al posto giusto e una nel posto sbagliato","3,0":"Tre cifre sono corrette ed al posto giusto","0,3":"Tre cifre sono corrette ma nel posto sbagliato","2,1":"Due cifre sono corrette al posto giusto e una nel posto sbagliato","1,2":"Una cifra è corretta al posto giusto e due nel posto sbagliato","4,0":"Quattro cifre sono corrette ed al posto giusto","0,4":"Quattro cifre sono corrette ma nel posto sbagliato","2,2":"Due cifre sono corrette al posto giusto e due nel posto sbagliato"};return m[b+','+c]||`${b} cifre corrette al posto giusto e ${c} nel posto sbagliato`}
+function solutions(clues,cands){return cands.filter(code=>clues.every(cl=>{let e=evalCode(code,cl.guess);return e[0]===cl.b&&e[1]===cl.c}))}
+function progress(clues,cands){let active=[...cands], counts=[];for(const cl of clues){active=active.filter(code=>{let e=evalCode(code,cl.guess);return e[0]===cl.b&&e[1]===cl.c});counts.push(active.length)}return counts}
+function useful(clues,cands){for(let i=0;i<clues.length;i++){let red=clues.slice(0,i).concat(clues.slice(i+1));if(solutions(red,cands).length===1)return false}return true}
+function connected(zero,clues){let joined=clues.slice(1).map(c=>c.guess).join('');return [...zero].every(d=>joined.includes(d))}
+function rand(a){return a[Math.floor(Math.random()*a.length)]}
+function sample(a,k){let b=[...a],o=[];for(let i=0;i<k;i++){let j=Math.floor(Math.random()*b.length);o.push(b.splice(j,1)[0])}return o}
+function score(clues,cands){let pairs=clues.map(c=>c.b+','+c.c), counts=progress(clues,cands), s=new Set(pairs).size*4;if(pairs[0]==='0,0')s+=10;for(const p of pairs)if(['1,0','0,1','2,0','0,2','1,1','3,0','0,3','2,1','1,2'].includes(p))s+=3;if(counts[2]&&counts[2]<=2)s-=20;if(counts[3]===1)s-=8;return s}
+function generate(len,n,max){let cands=perms(DIGITS,len),best=null,bestS=-1e9;for(let a=0;a<max;a++){let secret=rand(cands), absent=[...DIGITS].filter(d=>!secret.includes(d)), zero=sample(absent,len).join(''), clues=[{guess:zero,b:0,c:0}], used=new Set([zero,secret]);let tries=0;while(clues.length<n&&tries<1500){tries++;let g=rand(cands);if(used.has(g))continue;used.add(g);let [b,c]=evalCode(secret,g);if((b===0&&c===0)||(b===len&&c===0))continue;clues.push({guess:g,b,c})}if(clues.length!==n)continue;if(!connected(zero,clues))continue;let sol=solutions(clues,cands);if(sol.length!==1||sol[0]!==secret)continue;if(!useful(clues,cands))continue;let sc=score(clues,cands);if(sc>bestS){best={secret,clues,counts:progress(clues,cands)};bestS=sc}if(sc>=28)return best}return best}
+function generateAndShow(){let len=+document.getElementById('digits').value,n=+document.getElementById('clues').value,max=+document.getElementById('attempts').value;document.getElementById('status').textContent='Genero...';setTimeout(()=>{let q=generate(len,n,max);if(!q){document.getElementById('status').textContent='Nessun quiz trovato. Aumenta i tentativi.';return}let html='',txt='';q.clues.forEach(cl=>{html+=`<div class="clue"><div class="num">${cl.guess}</div><div class="hint">${text(cl.b,cl.c)}</div></div>`;txt+=`${cl.guess} → ${text(cl.b,cl.c)}\n`});lastText=txt+`\nSOLUZIONE: ${q.secret}\nProgressione: ${q.counts.join(' → ')}`;document.getElementById('quiz').innerHTML=html;document.getElementById('result').innerHTML=`<div class="sol">Soluzione: ${q.secret}</div><br>Progressione soluzioni: ${q.counts.join(' → ')}<br><br>${lastText}`;document.getElementById('status').textContent='Quiz generato e verificato con soluzione unica.'},50)}
+function copyQuiz(){navigator.clipboard.writeText(lastText);document.getElementById('status').textContent='Copiato negli appunti.'}
+generateAndShow();
+</script>
+</body>
+</html>
