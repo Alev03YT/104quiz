@@ -4,17 +4,18 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>104Quiz Generator</title>
-  <link rel="stylesheet" href="style.css?v=4" />
+  <link rel="stylesheet" href="style.css?v=5" />
 </head>
 <body>
   <div class="app">
     <aside>
       <div class="brand"><div class="logo">🔒</div><div><h1>104<span>QUIZ</span></h1><p>Generatore TikTok completo</p></div></div>
       <div class="panel"><h3>1. NUMERO DI CIFRE</h3><div class="choices"><button class="choice active" data-len="3">3 CIFRE</button><button class="choice" data-len="4">4 CIFRE</button><button class="choice" data-len="5">5 CIFRE</button></div></div>
-      <div class="panel"><h3>2. SOLUZIONE PRECEDENTE</h3><p class="muted">Verrà inserita nell'immagine del quiz.</p><input id="prev" placeholder="Es: 734" /></div>
-      <div class="panel"><h3>3. GENERA</h3><button id="gen">🎲 GENERA QUIZ PERFETTO</button></div>
-      <div class="panel"><h3>4. ESPORTA</h3><button class="dark" id="exportQuiz">⬇ 1) ESPORTA QUIZ</button><button class="dark" id="exportCover">⬇ 2) ESPORTA COPERTINA</button><button class="dark" id="copyDesc">📋 3) COPIA DESCRIZIONE</button><button class="dark" id="copyQuiz">📋 COPIA QUIZ</button><button class="red" id="reset">🗑 RESET</button></div>
-      <div class="panel"><h3 class="gold">💡 OUTPUT</h3><p class="muted">Quiz, copertina e descrizione pronti per TikTok.</p></div>
+      <div class="panel"><h3>2. TEMPLATE GRAFICI</h3><p class="muted">Carica una volta le due immagini in stile AI: il sito le salva e le compila automaticamente.</p><label class="upload">Template Quiz<input id="tplQuiz" type="file" accept="image/*"></label><label class="upload">Template Copertina<input id="tplCover" type="file" accept="image/*"></label><button class="dark" id="clearTpl">Rimuovi template salvati</button></div>
+      <div class="panel"><h3>3. SOLUZIONE PRECEDENTE</h3><p class="muted">Verrà inserita nell'immagine del quiz.</p><input id="prev" placeholder="Es: 734" /></div>
+      <div class="panel"><h3>4. GENERA</h3><button id="gen">🎲 GENERA QUIZ PERFETTO</button></div>
+      <div class="panel"><h3>5. ESPORTA</h3><button class="dark" id="exportQuiz">⬇ 1) ESPORTA QUIZ</button><button class="dark" id="exportCover">⬇ 2) ESPORTA COPERTINA</button><button class="dark" id="copyDesc">📋 3) COPIA DESCRIZIONE</button><button class="dark" id="copyQuiz">📋 COPIA QUIZ</button><button class="red" id="reset">🗑 RESET</button></div>
+      <div class="panel"><h3 class="gold">💡 OUTPUT</h3><p class="muted">Scegli 3/4/5 cifre: il template viene adattato in automatico.</p></div>
     </aside>
     <main class="main">
       <div class="topbar"><h2>ANTEPRIMA</h2><span class="muted" id="status">Pronto</span></div>
@@ -31,6 +32,6 @@
   </div>
   <div class="toast" id="toast"></div>
   <canvas id="canvas" width="1080" height="1920"></canvas>
-  <script src="script.js?v=4"></script>
+  <script src="script.js?v=5"></script>
 </body>
 </html>
