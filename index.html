@@ -4,14 +4,14 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>104Quiz Generator</title>
-  <link rel="stylesheet" href="style.css?v=8" />
+  <link rel="stylesheet" href="style.css?v=9" />
 </head>
 <body>
   <div class="app">
     <aside>
       <div class="brand"><div class="logo">🔒</div><div><h1>104<span>QUIZ</span></h1><p>Generatore TikTok completo</p></div></div>
       <div class="panel"><h3>1. NUMERO DI CIFRE</h3><div class="choices"><button class="choice active" data-len="3">3 CIFRE</button><button class="choice" data-len="4">4 CIFRE</button><button class="choice" data-len="5">5 CIFRE</button></div></div>
-      <div class="panel"><h3>2. TEMPLATE STILE AI</h3><p class="muted">Carica il template vuoto una volta sola. Il sito lo salva e lo compila automaticamente.</p><input id="tplQuiz" type="file" accept="image/*" /><button class="dark" id="clearTpl">Rimuovi template</button></div>
+      <div class="panel"><h3>2. TEMPLATE STILE AI</h3><p class="muted">Opzionale: carica il template vuoto. Senza template il sito usa la grafica integrata.</p><input id="tplQuiz" type="file" accept="image/*" /><button class="dark" id="clearTpl">Rimuovi template</button></div>
       <div class="panel"><h3>3. SOLUZIONE PRECEDENTE</h3><input id="prev" placeholder="Es: 734" /></div>
       <div class="panel"><h3>4. GENERA</h3><button id="gen">🎲 GENERA QUIZ PERFETTO</button></div>
       <div class="panel"><h3>5. ESPORTA</h3><button class="dark" id="exportQuiz">⬇ ESPORTA IMMAGINE TIKTOK</button><button class="dark" id="copyDesc">📋 COPIA DESCRIZIONE</button><button class="dark" id="copyQuiz">📋 COPIA QUIZ</button><button class="red" id="reset">🗑 RESET</button></div>
@@ -29,7 +29,7 @@
     <section class="panel progress"><h3 class="st">SOLUZIONI DOPO OGNI INDIZIO</h3><div class="proggrid" id="progress"></div></section>
   </div>
   <div class="toast" id="toast"></div>
-  <canvas id="canvas" width="1024" height="1536"></canvas>
-  <script src="script.js?v=8"></script>
+  <canvas id="canvas" width="1080" height="1920"></canvas>
+  <script src="script.js?v=9"></script>
 </body>
 </html>
