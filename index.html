@@ -4,25 +4,22 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>104Quiz Generator</title>
-  <link rel="stylesheet" href="style.css?v=9" />
+  <link rel="stylesheet" href="style.css?v=10" />
 </head>
 <body>
   <div class="app">
     <aside>
-      <div class="brand"><div class="logo">🔒</div><div><h1>104<span>QUIZ</span></h1><p>Generatore TikTok completo</p></div></div>
-      <div class="panel"><h3>1. NUMERO DI CIFRE</h3><div class="choices"><button class="choice active" data-len="3">3 CIFRE</button><button class="choice" data-len="4">4 CIFRE</button><button class="choice" data-len="5">5 CIFRE</button></div></div>
-      <div class="panel"><h3>2. TEMPLATE STILE AI</h3><p class="muted">Opzionale: carica il template vuoto. Senza template il sito usa la grafica integrata.</p><input id="tplQuiz" type="file" accept="image/*" /><button class="dark" id="clearTpl">Rimuovi template</button></div>
-      <div class="panel"><h3>3. SOLUZIONE PRECEDENTE</h3><input id="prev" placeholder="Es: 734" /></div>
-      <div class="panel"><h3>4. GENERA</h3><button id="gen">🎲 GENERA QUIZ PERFETTO</button></div>
-      <div class="panel"><h3>5. ESPORTA</h3><button class="dark" id="exportQuiz">⬇ ESPORTA IMMAGINE TIKTOK</button><button class="dark" id="copyDesc">📋 COPIA DESCRIZIONE</button><button class="dark" id="copyQuiz">📋 COPIA QUIZ</button><button class="red" id="reset">🗑 RESET</button></div>
+      <div class="brand"><div class="logo">🔒</div><div><h1>104<span>QUIZ</span></h1><p>Genera quiz perfetti ogni volta.</p></div></div>
+      <div class="panel"><h3>1. CONFIGURAZIONE</h3><p class="muted">Soluzione precedente</p><input id="prev" placeholder="Es: 734" /><p class="muted">Numero di cifre</p><div class="choices"><button class="choice active" data-len="3">3</button><button class="choice" data-len="4">4</button><button class="choice" data-len="5">5</button></div><button id="gen">⚡ GENERA QUIZ</button><button class="dark" id="regen">↻ RIGENERA ALTRO QUIZ</button></div>
+      <div class="panel"><h3>2. ESPORTA</h3><button class="purple" id="exportQuiz">⬇ SCARICA IMMAGINE<br><span class="muted">Formato TikTok 1080x1920</span></button><button class="dark" id="copyQuiz">📋 COPIA TESTO</button><button class="dark" id="copyDesc">📋 COPIA DESCRIZIONE</button><button class="red" id="reset">🗑 RESET</button></div>
     </aside>
     <main class="main">
-      <div class="topbar"><h2>ANTEPRIMA</h2><span class="muted" id="status">Pronto</span></div>
+      <div class="topbar"><h2>ANTEPRIMA TEMPLATE</h2><span class="muted" id="status">Pronto</span></div>
       <div class="preview"><div class="poster" id="poster"></div></div>
     </main>
     <aside>
+      <div class="panel"><h3 class="st">DATI DEL QUIZ</h3><p class="muted">Soluzione precedente</p><input id="prevMirror" readonly><p class="muted">Numero di cifre</p><input id="lenMirror" readonly><p class="muted">Codice generato</p><input id="codeMirror" readonly></div>
       <div class="panel"><h3 class="st">SOLUZIONE</h3><div class="sol" id="solBox"></div></div>
-      <div class="panel"><h3 class="st">STATISTICHE</h3><div class="stat"><span>Indizi</span><b id="tries">5</b></div><div class="stat"><span>Cifre</span><b id="lenStat">3</b></div><div class="stat"><span>Soluzione unica</span><b class="ok">✓</b></div><div class="stat"><span>Generato</span><b id="time">-</b></div></div>
       <div class="panel"><h3 class="st">DESCRIZIONE TIKTOK</h3><textarea id="desc"></textarea></div>
       <div class="panel"><h3 class="st">RAGIONAMENTO</h3><div class="reason" id="reason"></div></div>
     </aside>
@@ -30,6 +27,6 @@
   </div>
   <div class="toast" id="toast"></div>
   <canvas id="canvas" width="1080" height="1920"></canvas>
-  <script src="script.js?v=9"></script>
+  <script src="script.js?v=10"></script>
 </body>
 </html>
